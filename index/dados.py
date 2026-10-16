@@ -38,11 +38,17 @@ def prepare_countries(lines):
     countries = []
     for line in lines:
         country = {
-            "titulo": line["titulo"],
-            "preco": line["preco"],
-            "categoria": line["categoria"],
-            "nota": line["nota"],
-            "url": line["url"]
+            "pais": line["pais"],
+            "regiao": line["regiao"],
+            "populacao": line["populacao"],
+            "area_mi2": line["area_mi2"],
+            "densidade": line["densidade"],
+            "pib_per_capita": line["pib_per_capita"],
+            "alfabetizacao": line["alfabetizacao"],
+            "telefones_por_mil": line["telefones_por_mil"],
+            "natalidade": line["natalidade"],
+            "mortalidade": line["mortalidade"],
+            "mortalidade_infantil": line["mortalidade_infantil"],
         }
         countries.append(country)
 

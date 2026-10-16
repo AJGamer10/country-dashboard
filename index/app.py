@@ -12,7 +12,6 @@ def build_table(countries):
         line = {
             "País": country["pais"],
             "Região": country["regiao"],
-            "Moeda": country["moeada"],
             "População": country["populacao"],
             "Área por m²": country["area_mi2"],
             "Densidade demografica": country["densidade"],
@@ -40,7 +39,7 @@ def list_regions(countries):
     regions = []
     for country in countries:
         if country["regiao"] not in regions:
-            regions.append(country["region"])
+            regions.append(country["regiao"])
 
     regions.sort()
     return regions
@@ -52,7 +51,7 @@ def filter_for_region(countries, region):
 
     result = []
     for country in countries:
-        if country["region"] == region:
+        if country["regiao"] == region:
             result.append(country)
 
     return result
@@ -78,9 +77,9 @@ def main():
     countries_amount = len(founded)
 
     if countries_amount == 0:
-        st.warning("Nenhum livro encontrado")
+        st.warning("Nenhum país encontrado")
     else:
-        st.write(f"Livros encontrados: {countries_amount}")
+        st.write(f"Países encontrados: {countries_amount}")
         st.dataframe(build_table(founded))
 
 if __name__ == "__main__":
