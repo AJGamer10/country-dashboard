@@ -1,4 +1,4 @@
-"""Dashboard de Livros: app Streamlit.
+"""Dashboard de Países: app Streamlit.
 """
 
 import streamlit as st
@@ -8,10 +8,20 @@ import dados
 def build_table(countries):
     """Prepara as linhas que aparecem na tabela, com nomes de coluna amigáveis."""
     table = []
+
     for country in countries:
+        cotacao = country.get("cotacao_brl")
+
+        if cotacao is not None:
+            cotacao_fmt = f"R$ {float(cotacao):.2f}"
+        else:
+            cotacao_fmt = "N/A"
+
         line = {
             "País": country["pais"],
             "Região": country["regiao"],
+            "Moeda": country.get("moeda", "N/A"),
+            "Cotação em R$": cotacao_fmt,
             "População": country["populacao"],
             "Área por m²": country["area_mi2"],
             "Densidade demografica": country["densidade"],

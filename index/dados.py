@@ -37,6 +37,14 @@ def prepare_countries(lines):
     """Recebe as linhas lidas do CSV e devolve os paises formatados."""
     countries = []
     for line in lines:
+        raw_cotacao = line.get("cotacao_brl")
+        if raw_cotacao and raw_cotacao != "N/A":
+            try:
+                cotacao_val = float(raw_cotacao)
+            except ValueError:
+                cotacao_val = None
+        else:
+            cotacao_val = None
         country = {
             "pais": line["pais"],
             "regiao": line["regiao"],
@@ -49,6 +57,8 @@ def prepare_countries(lines):
             "natalidade": line["natalidade"],
             "mortalidade": line["mortalidade"],
             "mortalidade_infantil": line["mortalidade_infantil"],
+            "moeda": line.get("moeda", "N/A"),
+            "cotacao_brl": cotacao_val,
         }
         countries.append(country)
 
