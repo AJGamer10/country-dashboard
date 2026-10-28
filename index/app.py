@@ -1,4 +1,4 @@
-"""Dashboard de Livros: app Streamlit.
+"""Dashboard de Países: app Streamlit.
 """
 
 import streamlit as st
@@ -100,8 +100,6 @@ def main():
     st.set_page_config(page_title="Países do Mundo", page_icon="🌎​", layout="wide")
 
     countries = dados.load_countries()
-
-   
         
 
     st.title("Países do Mundo")
