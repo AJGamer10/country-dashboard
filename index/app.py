@@ -54,6 +54,22 @@ def list_regions(countries):
     regions.sort()
     return regions
 
+
+def list_nome_moeda(countries):
+    """Devolve os nomes e moedas dos países, sem repetição e em ordem alfabética."""
+    nomes_moedas = []
+    for country in countries:
+        nome_moeda = [country["pais"], country.get("moeda", "N/A"), float(country["cotacao_brl"])]
+        if nome_moeda not in nomes_moedas:
+            nomes_moedas.append(nome_moeda)
+
+    nomes_moedas.sort()
+    return nomes_moedas
+
+def cambio(cotacao, real):
+    calculo = real/cotacao
+    return round(calculo, 2)
+
 def filter_for_region(countries, region):
     """Devolve só os países da região escolhida. Com "Todas", devolve todos."""
     if region == "Todas":
@@ -106,8 +122,17 @@ def format_num(num: int):
 def main():
     st.set_page_config(page_title="Países do Mundo", page_icon="🌎​", layout="wide")
     st.title("Países do Mundo")
-    
+
     countries = dados.load_countries()
+
+    with st.sidebar:
+        st.title("Câmbio")
+        search_sidebar = st.selectbox("Buscar países", ["Selecionar"] + list_nome_moeda(countries))
+        if search_sidebar != "Selecionar":
+            reais = st.text_input("Valor em Reais", placeholder=0.0)
+            print(reais)
+            st.text_input(f"Conversão para {search_sidebar[1]}", cambio(search_sidebar[2], float(reais) if reais.isdigit() else 0))
+
 
     col1, col2, col3, col4 = st.columns(4)
     countries_amount = len(countries)
