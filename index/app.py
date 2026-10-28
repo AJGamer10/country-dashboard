@@ -2,6 +2,8 @@
 """
 
 import streamlit as st
+from math import trunc, pow
+import time
 
 import dados
 
@@ -11,8 +13,8 @@ def build_table(countries):
     for country in countries:
         line = {
             "País": country["pais"],
-            "Região": country["regiao"],
-            "População": country["populacao"],
+            "Região": format_region(country["regiao"]),
+            "População": format_pop(int(country["populacao"])),
             "Área por m²": country["area_mi2"],
             "Densidade demografica": country["densidade"],
             "PIB per capita": country["pib_per_capita"],
@@ -38,8 +40,9 @@ def list_regions(countries):
     """Devolve as reagiões dos países, sem repetição e em ordem alfabética."""
     regions = []
     for country in countries:
-        if country["regiao"] not in regions:
-            regions.append(country["regiao"])
+        region = format_region(country["regiao"])
+        if region not in regions:
+            regions.append(region)
 
     regions.sort()
     return regions
@@ -56,11 +59,52 @@ def filter_for_region(countries, region):
 
     return result
 
+def format_region(region: str):
+    """Traduz os nomes das regiões"""
+    match region:
+        case "ASIA (EX. NEAR EAST)":
+            return "ASIA (EXC. ORIENTE PRÓXIMO)"
+        case "BALTICS":
+            return "BALTICOS"
+        case "C.W. OF IND. STATES":
+            return "COM. DOS ESTADOS INDEP."
+        case "EASTERN EUROPE":
+            return "EUROPA ORIENTAL"
+        case "LATIN AMER. & CARIB":
+            return "AMÉRICA LAT. E CARIBE"
+        case "NEAR EAST":
+            return "ORIENTE PROXIMO"
+        case "NORTHERN AFRICA":
+            return "ÁFRICA DO NORTE"
+        case "NORTHERN AMERICA":
+            return "AMÉRICA DO NORTE"
+        case "OCEANIA":
+            return "OCEANIA"
+        case "SUB-SAHARAN AFRICA":
+            return "ÁFRICA SUBSAARIANA"
+        case "WESTERN EUROPE":
+            return "EUROPA OCIDENTAL"
+        case _:
+            pass
+
+def format_pop(pop: int):
+    """Adiciona notação pela quantidade de classes numéricas"""
+    thousend_separator = ["", " mil", " milhões", " bilhões"]
+    error_correct = [3, 6, 9]
+    thousend_separators_amount = trunc(len(str(pop))/3)-1 if len(str(pop)) in error_correct else trunc(len(str(pop))/3)
+    return f"{round(pop / (pow(1000, thousend_separators_amount)), 2)}" + thousend_separator[thousend_separators_amount]
+    
+            
+
 def main():
-    st.set_page_config(page_title="Dashboard de Países", page_icon="🌎​", layout="wide")
-    st.title("🌎​ Dashboard de Países")
+    st.set_page_config(page_title="Países do Mundo", page_icon="🌎​", layout="wide")
 
     countries = dados.load_countries()
+
+   
+        
+
+    st.title("Países do Mundo")
 
     col1, col2, col3, col4 = st.columns(4)
     countries_amount = len(countries)
