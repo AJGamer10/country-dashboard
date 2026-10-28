@@ -1,7 +1,7 @@
 # country-dashboard
 **Membros:** Noah Dias, Abner Edgar, Gabriel Jeremias
 **Dataset:** paises.csv + https://github.com/AJGamer10/country-dashboard?tab=readme-ov-file
-**App publicado:** https://...streamlit.app (colocar quando estiver pronto)
+**App publicado:** https://paisesdomundo.streamlit.app
 ## Funcionalidades
 - [x] Leitura do CSV
 - [x] Conversão das colunas
