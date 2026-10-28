@@ -12,9 +12,9 @@ def build_table(countries):
     for country in countries:
         line = {
             "País": country["pais"],
-            "Região": country["regiao"],
-            "População": country["populacao"],
-            "Área por m²": country["area_mi2"],
+            "Região": format_region(country["regiao"]),
+            "População": format_num(int(country["populacao"])),
+            "Área por m²": format_num(int(country["area_mi2"])),
             "Densidade demografica": country["densidade"],
             "PIB per capita": country["pib_per_capita"],
             "Alfabetização": country["alfabetizacao"],
