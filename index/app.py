@@ -3,7 +3,6 @@
 
 import streamlit as st
 from math import trunc, pow
-import time
 
 import dados
 
@@ -11,11 +10,19 @@ def build_table(countries):
     """Prepara as linhas que aparecem na tabela, com nomes de coluna amigáveis."""
     table = []
     for country in countries:
+        cotacao = country.get("cotacao_brl")
+
+        if cotacao is not None:
+            cotacao_fmt = f"R$ {float(cotacao):.2f}"
+        else:
+            cotacao_fmt = "N/A"
         line = {
             "País": country["pais"],
-            "Região": format_region(country["regiao"]),
-            "População": format_num(int(country["populacao"])),
-            "Área por m²": format_num(int(country["area_mi2"])),
+            "Região": country["regiao"],
+            "Moeda": country.get("moeda", "N/A"),
+            "Cotação em R$": cotacao_fmt,
+            "População": country["populacao"],
+            "Área por m²": country["area_mi2"],
             "Densidade demografica": country["densidade"],
             "PIB per capita": country["pib_per_capita"],
             "Alfabetização": country["alfabetizacao"],
@@ -98,11 +105,9 @@ def format_num(num: int):
 
 def main():
     st.set_page_config(page_title="Países do Mundo", page_icon="🌎​", layout="wide")
-
-    countries = dados.load_countries()
-        
-
     st.title("Países do Mundo")
+    
+    countries = dados.load_countries()
 
     col1, col2, col3, col4 = st.columns(4)
     countries_amount = len(countries)
