@@ -127,11 +127,19 @@ def main():
 
     with st.sidebar:
         st.title("Câmbio")
-        search_sidebar = st.selectbox("Buscar países", ["Selecionar"] + list_nome_moeda(countries))
+        search_sidebar = st.selectbox(
+            "Buscar países",
+            ["Selecionar"] + list_nome_moeda(countries),
+            format_func=lambda country: country if isinstance(country, str) else country[0],
+        )
         if search_sidebar != "Selecionar":
-            reais = st.text_input("Valor em Reais", placeholder=0.0)
-            print(reais)
-            st.text_input(f"Conversão para {search_sidebar[1]}", cambio(search_sidebar[2], float(reais) if reais.isdigit() else 0))
+            reais = st.number_input("Valor em Reais", min_value=0.0, value=0.0, step=0.01, format="%.2f")
+            conversao = cambio(search_sidebar[2], reais)
+            st.text_input(
+                f"Conversão para {search_sidebar[1]}",
+                value=f"{conversao:.2f}",
+                disabled=True,
+            )
 
 
     col1, col2, col3, col4 = st.columns(4)
