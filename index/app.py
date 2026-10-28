@@ -14,8 +14,8 @@ def build_table(countries):
         line = {
             "País": country["pais"],
             "Região": format_region(country["regiao"]),
-            "População": format_pop(int(country["populacao"])),
-            "Área por m²": country["area_mi2"],
+            "População": format_num(int(country["populacao"])),
+            "Área por m²": format_num(int(country["area_mi2"])),
             "Densidade demografica": country["densidade"],
             "PIB per capita": country["pib_per_capita"],
             "Alfabetização": country["alfabetizacao"],
@@ -87,12 +87,12 @@ def format_region(region: str):
         case _:
             pass
 
-def format_pop(pop: int):
+def format_num(num: int):
     """Adiciona notação pela quantidade de classes numéricas"""
     thousend_separator = ["", " mil", " milhões", " bilhões"]
     error_correct = [3, 6, 9]
-    thousend_separators_amount = trunc(len(str(pop))/3)-1 if len(str(pop)) in error_correct else trunc(len(str(pop))/3)
-    return f"{round(pop / (pow(1000, thousend_separators_amount)), 2)}" + thousend_separator[thousend_separators_amount]
+    thousend_separators_amount = trunc(len(str(num))/3)-1 if len(str(num)) in error_correct else trunc(len(str(num))/3)
+    return f"{round(num / (pow(1000, thousend_separators_amount)), 2)}" + thousend_separator[thousend_separators_amount]
     
             
 
